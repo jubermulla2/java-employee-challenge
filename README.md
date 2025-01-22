@@ -171,17 +171,16 @@ Mock APIs are used for data retrieval; there is no database connection. A placeh
 
 6. Steps to Test the API Module :
 
-    6.1 Start Mock Server :
-    To start the mock server, run the following command:
-    ---
+A - Start Mock Server :
+
     ./gradlew server:bootRun
 
-    6.2 Start API Application
-    To start the API application, run:
-    ---
+B - Start API Application
+
     ./gradlew api:bootRun
 
-    6.3 Test APIs :
+C -  Test APIs :
+
     Once both services are running, you can test the APIs using the provided Postman collection or by calling the endpoints directly
 
 *****************************************************************************************************************

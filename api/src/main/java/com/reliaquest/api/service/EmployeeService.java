@@ -94,20 +94,25 @@ public class EmployeeService {
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackGetAllEmployees")
     public ResponseEntity<List<Employee>> getAllEmployees() {
+        logger.info("Employee search started.");
         List<Employee> employees = fetchAllEmployees();
+        logger.info("Total employees count : {}", employees.size());
         return ResponseEntity.ok(employees);
     }
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackGetEmployeeById")
     public ResponseEntity<Employee> getEmployeeById(String id) {
+        logger.info("Employee search started for id: {}", id);
         Employee employee = fetchEmployeeById(id);
+        logger.info("Employee search completd with employee details: {}", employee);
         return ResponseEntity.ok(employee);
     }
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackCreateEmployee")
     public ResponseEntity<Employee> createEmployee(EmployeeCreateRequest employeeInput) {
-        String url = ApiConstants.mockApiBaseUrl;
+        logger.info("Create employee started for employee input: {}", employeeInput);
         try {
+            String url = ApiConstants.mockApiBaseUrl;
             ResponseEntity<EmployeeResponseData> response =
                     httpClient.post(url, employeeInput, EmployeeResponseData.class);
             if (response.getBody() == null || response.getBody().getData() == null) {
@@ -127,6 +132,7 @@ public class EmployeeService {
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackGetHighestSalary")
     public ResponseEntity<Integer> getHighestSalaryOfEmployees() {
+        logger.info("Searching for highest Salary started");
         String url = ApiConstants.mockApiBaseUrl;
         List<Employee> employeeList = fetchAllEmployees();
         try {
@@ -134,6 +140,7 @@ public class EmployeeService {
                     .map(Employee::getEmployeeSalary)
                     .max(Integer::compare)
                     .orElse(0);
+            logger.info("Got highest Salary of employee : {}", highestSalary);
             return ResponseEntity.ok(highestSalary);
         } catch (Exception e) {
             logger.error("Unexpected error while fetching highest salary: {}", e.getMessage(), e);
@@ -145,6 +152,7 @@ public class EmployeeService {
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackGetEmployeesByNameSearch")
     public ResponseEntity<List<Employee>> getEmployeesByNameSearch(String searchString) {
+        logger.info("Employee search for given search straing: {}", searchString);
         if (searchString == null || searchString.trim().isEmpty()) {
             throw new HttpClientErrorException(HttpStatus.BAD_REQUEST, Messages.SEARCH_STRING_IS_NULL_OR_EMPTY);
         }
@@ -156,6 +164,7 @@ public class EmployeeService {
                             && employee.getEmployeeName().toLowerCase().contains(searchString.toLowerCase()))
                     .collect(Collectors.toList());
 
+            logger.info("Employee search completed with matching employees count: {}", filteredEmployees.size());
             return ResponseEntity.ok(filteredEmployees);
         } catch (Exception e) {
             logger.error("Unexpected error while searching employees by name {}", e.getMessage(), e);
@@ -166,6 +175,7 @@ public class EmployeeService {
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackGetTopTenHighestEarningEmployeeNames")
     public ResponseEntity<List<String>> getTopTenHighestEarningEmployeeNames() {
+        logger.info("Employee search started for highest earning employee list");
         List<Employee> employees = fetchAllEmployees();
         try {
             List<String> topTenEmployeeNames = employees.stream()
@@ -173,6 +183,7 @@ public class EmployeeService {
                     .limit(10)
                     .map(Employee::getEmployeeName)
                     .collect(Collectors.toList());
+            logger.info("Employee search completed for top 10 highest salary emp names: {}", topTenEmployeeNames);
             return ResponseEntity.ok(topTenEmployeeNames);
         } catch (Exception e) {
             logger.error("Unexpected error while highest top 10 earning employees name {}", e.getMessage(), e);
@@ -183,6 +194,7 @@ public class EmployeeService {
 
     @CircuitBreaker(name = "employeeService", fallbackMethod = "fallbackDeleteEmployee")
     public ResponseEntity<String> deleteEmployee(String id) {
+        logger.info("Employee delete started for employee id: {}", id);
         Employee employee = fetchEmployeeById(id);
         try {
             String employeeName = employee.getEmployeeName();
@@ -191,6 +203,7 @@ public class EmployeeService {
             String url = ApiConstants.mockApiBaseUrl;
             ResponseEntity<Void> deleteResponse = httpClient.delete(url, deleteRequest, Void.class);
             if (deleteResponse.getStatusCode().is2xxSuccessful()) {
+                logger.info("Employee deleted successfully for id: {}", id);
                 return ResponseEntity.ok(Messages.EMPLOYEE_HAS_BEEN_SUCCESSFULLY_DELETED_FOR_GIVEN_ID + employeeName);
             } else {
                 logger.error(

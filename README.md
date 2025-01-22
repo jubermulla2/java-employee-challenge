@@ -166,15 +166,15 @@ Login functionality is not implemented as there was no requirement. It is assume
 Mock APIs are used for data retrieval; there is no database connection. A placeholder for the DAO layer has been added for future integration.
 
 6. Steps to Test the API Module
-a) Start Mock Server
-To start the mock server, run the following command:
-./gradlew server:bootRun
+    6.1 Start Mock Server
+    To start the mock server, run the following command:
+    ./gradlew server:bootRun
 
-b) Start API Application
-To start the API application, run:
-./gradlew api:bootRun
+    6.2 Start API Application
+    To start the API application, run:
+    ./gradlew api:bootRun
 
-c) Test APIs
-Once both services are running, you can test the APIs using the provided Postman collection or by calling the endpoints directly
+    6.3 Test APIs
+    Once both services are running, you can test the APIs using the provided Postman collection or by calling the endpoints directly
 
 *****************************************************************************************************************

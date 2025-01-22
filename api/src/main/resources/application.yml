@@ -1,2 +1,15 @@
-spring.application.name: employee-api
+spring:
+  application:
+    name: employee-api
+  profiles:
+    active: dev
+
 server.port: 8111
+
+logging:
+  level:
+    com.reliaquest.api.service.EmployeeService: INFO
+    org.springframework: INFO
+
+  file:
+    name: logs/employee-service.log

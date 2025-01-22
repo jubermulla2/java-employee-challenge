@@ -35,9 +35,6 @@ class EmployeeServiceTest {
     @InjectMocks
     private EmployeeService employeeService;
 
-    //    @Mock
-    //    private Logger logger;
-
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
@@ -100,17 +97,14 @@ class EmployeeServiceTest {
 
     @Test
     void testGetEmployeeById_NotFound() {
-        // Mock the behavior of httpClient to simulate an employee not found scenario
         when(httpClient.get(contains("/1"), eq(EmployeeResponseData.class)))
                 .thenThrow(new HttpClientErrorException(
                         HttpStatus.NOT_FOUND, Messages.NO_EMPLOYEE_DATA_FOUND_FOR_GIVEN_INPUT));
 
-        // Verify that the service translates the exception into EmployeeNotFoundException
         EmployeeNotFoundException exception = assertThrows(EmployeeNotFoundException.class, () -> {
             employeeService.getEmployeeById("25d32a9d-67a1-4552-8d3a-cf291c489887");
         });
 
-        // Assert that the exception message is as expected
         assertEquals(Messages.NO_EMPLOYEE_DATA_FOUND_FOR_GIVEN_INPUT, exception.getMessage());
     }
 

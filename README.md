@@ -146,3 +146,35 @@ and style guidelines with every build.
 To resolve any errors, you must run **spotlessApply** task.
 `./gradlew spotlessApply`
 
+*****************************************************************************************************************
+Project Overview
+*****************************************************************************************************************
+1. API Output Based on Method Signatures
+Each API provides output based on the method signatures defined in the IEmployeeController. This ensures clear and consistent API responses.
+
+2. Decoupled HTTP Client
+An HttpClient interface has been created to allow flexibility in switching HTTP clients. This decouples the employee service from RestTemplate, enabling easier transitions to other HTTP clients if needed in the future.
+
+3. Postman Collection
+A Postman collection can be found in the root folder as postmanTestCollection.json. This collection provides predefined test cases for the APIs and can be used to quickly test the endpoints.
+
+4. Self-Explanatory Code
+The code is designed to be self-explanatory, with no need for extra comments or complex explanations. The structure and naming conventions are intuitive, making the code easy to understand and maintain.
+
+5. Not Considered
+Login functionality is not implemented as there was no requirement. It is assumed that login functionality would be handled by a different microservice.
+Mock APIs are used for data retrieval; there is no database connection. A placeholder for the DAO layer has been added for future integration.
+
+6. Steps to Test the API Module
+a) Start Mock Server
+To start the mock server, run the following command:
+./gradlew server:bootRun
+
+b) Start API Application
+To start the API application, run:
+./gradlew api:bootRun
+
+c) Test APIs
+Once both services are running, you can test the APIs using the provided Postman collection or by calling the endpoints directly
+
+*****************************************************************************************************************

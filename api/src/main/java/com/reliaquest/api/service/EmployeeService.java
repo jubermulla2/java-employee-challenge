@@ -191,7 +191,7 @@ public class EmployeeService {
             String url = ApiConstants.mockApiBaseUrl;
             ResponseEntity<Void> deleteResponse = httpClient.delete(url, deleteRequest, Void.class);
             if (deleteResponse.getStatusCode().is2xxSuccessful()) {
-                return ResponseEntity.ok(Messages.EMPLOYEE_HAS_BEEN_SUCCESSFULLY_DELETED_FOR_GIVEN_ID);
+                return ResponseEntity.ok(Messages.EMPLOYEE_HAS_BEEN_SUCCESSFULLY_DELETED_FOR_GIVEN_ID + employeeName);
             } else {
                 logger.error(
                         "Failed to delete employee with ID {}: HTTP status {}", id, deleteResponse.getStatusCode());
@@ -210,7 +210,7 @@ public class EmployeeService {
     }
 
     // ------------------------------------------------------------------------------------------------------------------
-    // Fallback methods
+    // Fallback methods if api service down we have use that response.
     public ResponseEntity<List<Employee>> fallbackGetAllEmployees(Throwable throwable) {
         logger.error("Fallback triggered for getAllEmployees. Reason: {}", throwable.getMessage(), throwable);
         return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(List.of(new Employee()));

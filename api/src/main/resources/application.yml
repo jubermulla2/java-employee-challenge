@@ -13,3 +13,15 @@ logging:
 
   file:
     name: logs/employee-service.log
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      myServiceCircuitBreaker:
+        registerHealthIndicator: true
+        failureRateThreshold: 50  # Percentage of failures before opening the circuit
+        slidingWindowSize: 100  # Number of calls to consider for failure rate
+        permittedNumberOfCallsInHalfOpenState: 10  # Allowed calls in half-open state
+        waitDurationInOpenState: 5000ms  # Time to wait in open state before trying again
+        minimumNumberOfCalls: 5  # Minimum number of calls to calculate failure rate
+        timeIntervalInOpenState: 10000ms  # Duration for which the circuit stays open

@@ -13,7 +13,7 @@ class MessagesTest {
         assertEquals("Failed to create employee.", Messages.FAILED_TO_CREATE_EMPLOYEE);
         assertEquals("Failed to delete employee for given id.", Messages.FAILED_TO_DELETE_EMPLOYEE_WITH_ID);
         assertEquals(
-                "Employee has been successfully deleted for given id.",
+                "Employee has been successfully deleted for given id. deleted Employee :",
                 Messages.EMPLOYEE_HAS_BEEN_SUCCESSFULLY_DELETED_FOR_GIVEN_ID);
         assertEquals(
                 "You have exceeded the allowed number of requests. Please try again later.",

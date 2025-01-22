@@ -148,16 +148,13 @@ class EmployeeServiceTest {
         ResponseEntity<String> response = employeeService.deleteEmployee("25d32a9d-67a1-4552-8d3a-cf291c489887");
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals(Messages.EMPLOYEE_HAS_BEEN_SUCCESSFULLY_DELETED_FOR_GIVEN_ID, response.getBody());
+        assertEquals(Messages.EMPLOYEE_HAS_BEEN_SUCCESSFULLY_DELETED_FOR_GIVEN_ID + "John Doe", response.getBody());
     }
 
     @Test
     void testFallbackGetAllEmployees() {
         Throwable throwable = new RuntimeException("Service down");
         ResponseEntity<List<Employee>> response = employeeService.fallbackGetAllEmployees(throwable);
-
-        //        verify(logger).error("Fallback triggered for getAllEmployees. Reason: {}", throwable.getMessage(),
-        // throwable);
         assertEquals(HttpStatus.SERVICE_UNAVAILABLE, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());

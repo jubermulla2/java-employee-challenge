@@ -18,6 +18,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class EmployeeService {
     private static final Logger logger = LoggerFactory.getLogger(EmployeeService.class);
     private final IHttpClient httpClient;
 
-    public EmployeeService(IHttpClient httpClient) {
+    public EmployeeService(@Qualifier("restTemplateHttpClient") IHttpClient httpClient) {
         this.httpClient = httpClient;
     }
 
